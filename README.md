@@ -98,13 +98,19 @@ Access these through the UV proxy at `/uv/`:
 
 Play AAA games through your proxy:
 ```bash
+# Option 1: Using docker-compose (RECOMMENDED)
+docker-compose up -d
+
+# Option 2: Manual docker run
 docker run -d --name doge \
-  -p 8080:80 -p 3000:8000 -p 8081:3128 -p 9050:9050 \
+  -p 3000:3000 -p 8080:8080 -p 9050:9050 \
   -v ./logs:/app/logs -v ./proxies:/app/proxies \
   doge-unblocker
 
-# Then access GeForce NOW at:
-# http://localhost:8080/geforce.html
+# Then access:
+# Homepage: http://localhost:8080
+# UV Proxy: http://localhost:3000
+# GeForce NOW: http://localhost:8080/geforce.html
 ```
 
 **If GeForce NOW doesn't load:**
@@ -188,9 +194,9 @@ noboyorg/no/
 # Build image
 docker build -t doge-unblocker .
 
-# Run container (Chromebook-compatible)
+# Run container (Chromebook-compatible)  
 docker run -d --name doge \
-  -p 8080:80 -p 3000:3000 -p 8081:8080 -p 9050:9050 \
+  -p 3000:3000 -p 8080:8080 -p 9050:9050 \
   -v ./logs:/app/logs -v ./proxies:/app/proxies \
   doge-unblocker
 
