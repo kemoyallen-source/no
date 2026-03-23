@@ -21,7 +21,20 @@
         window.onload = function () {
 
             let encodedAg = localStorage.getItem("agUrl");
+            if (!encodedAg) {
+                console.error('No encoded URL found in localStorage');
+                document.querySelector("#siteurl").src = 'about:blank';
+                return;
+            }
             encodedAg = "/service/" + encodedAg;
+            
+            // Add error handling for failed requests
+            const iframe = document.querySelector("#siteurl");
+            iframe.onerror = function() {
+                console.error('Failed to load app - check network connection');
+                iframe.src = 'data:text/html,<h1>Failed to load app</h1><p>Check your connection and try again.</p>';
+            };
+            
             document.querySelector("#siteurl").src = encodedAg;
             /* Now.GG */
             var scriptElement = document.createElement('script');
@@ -73,10 +86,30 @@
     <script src="/assets/js/ag.js"></script>
     <script src="/assets/js/loader.js"></script>
     <script>
+        // Wrap service worker registration with error handling
         window.navigator.serviceWorker
             .register("/sw.js", {
                 scope: __uv$config.prefix,
+            })
+            .catch(err => {
+                console.error('Service Worker registration failed:', err);
+                // Continue anyway - proxy might still work
             });
+            
+        // Add global fetch error handler
+        let originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            return originalFetch.apply(this, args)
+                .catch(err => {
+                    console.error('Fetch error:', err);
+                    // Return a proper error response instead of failing
+                    return new Response('Network error', {
+                        status: 503,
+                        statusText: 'Service Unavailable',
+                        headers: { 'Content-Type': 'text/plain' }
+                    });
+                });
+        };
     </script>
     <iframe src="loading.html" id="siteurl" style="position: fixed; inset: 0px; outline: none; border: none; height: 100%; width: 100%; overflow: hidden;"></iframe>
 </body>
