@@ -42,7 +42,7 @@ sleep 3
 # Start Nginx reverse proxy if config exists
 if [ -f /app/configs/nginx.conf ]; then
   log "Starting Nginx reverse proxy..."
-  nginx -g 'daemon off; error_log /app/logs/nginx_error.log warn;' &
+  nginx -c /app/configs/nginx.conf -g 'daemon off; error_log /app/logs/nginx_error.log warn;' &
   sleep 2
 fi
 

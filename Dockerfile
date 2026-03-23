@@ -36,7 +36,7 @@ RUN touch /app/proxies/{http,https,socks4,socks5}.live && \
     echo "127.0.0.1:3000" > /app/proxies/http.live
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:3000/health 2>/dev/null || exit 1
+  CMD curl -f http://localhost:80/ 2>/dev/null | grep -q "DOCTYPE" || exit 1
 
 EXPOSE 80 443 3000 8080 9050 3128 1080
 ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]

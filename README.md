@@ -31,20 +31,28 @@ cd no
 docker build -t doge-unblocker .
 ```
 
-### Step 2: Run (Chromebook-Friendly Ports)
+### Step 2: Run (Chromebook-Friendly Ports) ✅ CORRECTED
 
 ```bash
+# Stop any existing containers
+docker stop doge 2>/dev/null || true
+docker rm doge 2>/dev/null || true
+
+# CORRECTED PORT MAPPING (matches actual container ports)
 docker run -d --name doge \
-  -p 8080:80 -p 3000:8000 -p 8081:3128 -p 9050:9050 \
+  -p 8080:80 \
+  -p 3000:8000 \
+  -p 8081:3128 \
+  -p 9050:9050 \
   -v ./logs:/app/logs -v ./proxies:/app/proxies \
   doge-unblocker
 ```
 
 **Port Mapping Reference:**
-- Host `8080` → Container `80` (Nginx public interface)
-- Host `3000` → Container `8000` (DogeUnblocker app)
-- Host `8081` → Container `3128` (Privoxy)
-- Host `9050` → Container `9050` (Tor SOCKS)
+- Host `8080` → Container `80` (Nginx homepage/games)
+- Host `3000` → Container `8000` (UV proxy app)
+- Host `8081` → Container `3128` (Privoxy HTTP proxy)
+- Host `9050` → Container `9050` (Tor SOCKS5)
 
 ### Step 3: Click & Launch
 
@@ -56,18 +64,19 @@ docker run -d --name doge \
 
 ## 🌐 ChromeOS Port Forwarding (Critical!)
 
-**Issue:** "Error Forwarding Port"?
+**Issue:** "Error Forwarding Port" or services inaccessible on ChromeOS?
 
-**Fix:** Add manual port forwarding rules in ChromeOS:
-1. Go to **Settings** → **Linux development environment** → **Port forwarding**
+**Fix:** Add manual port forwarding rules in ChromeOS Linux (Beta):
+1. Go to **Settings** → **Linux (Beta)** → **Port Forwarding**
 2. Add these rules:
-   - Container `80` → Host `8080` (TCP) ✅
-   - Container `3000` → Host `3000` (TCP) ✅
-   - Container `8080` → Host `8081` (TCP) ✅
-   - Container `9050` → Host `9050` (TCP) ✅
+   - Port `80/TCP` → `8080`
+   - Port `8000/TCP` → `3000`
+   - Port `3128/TCP` → `8081`
+   - Port `9050/TCP` → `9050`
 3. Restart Docker:
    ```bash
-   docker stop doge && docker rm doge
+   docker stop doge 2>/dev/null || true
+   docker rm doge 2>/dev/null || true
    # Then re-run the docker run command above
    ```
 
@@ -101,16 +110,17 @@ Play AAA games through your proxy:
 # Option 1: Using docker-compose (RECOMMENDED)
 docker-compose up -d
 
-# Option 2: Manual docker run
+# Option 2: Manual docker run (CORRECT PORT MAPPING)
 docker run -d --name doge \
-  -p 3000:3000 -p 8080:8080 -p 9050:9050 \
+  -p 8080:80 -p 3000:8000 -p 8081:3128 -p 9050:9050 \
   -v ./logs:/app/logs -v ./proxies:/app/proxies \
   doge-unblocker
 
 # Then access:
-# Homepage: http://localhost:8080
-# UV Proxy: http://localhost:3000
-# GeForce NOW: http://localhost:8080/geforce.html
+# 🏠 Homepage: http://localhost:8080
+# 🔗 UV Proxy: http://localhost:3000/
+# 🛠️ Health: http://localhost:8080/health
+# 🎮 GeForce NOW: http://localhost:8080/geforce.html
 ```
 
 **If GeForce NOW doesn't load:**
@@ -194,23 +204,32 @@ noboyorg/no/
 # Build image
 docker build -t doge-unblocker .
 
-# Run container (Chromebook-compatible)  
+# Run container (CORRECT Chromebook-compatible ports)
 docker run -d --name doge \
-  -p 3000:3000 -p 8080:8080 -p 9050:9050 \
+  -p 8080:80 -p 3000:8000 -p 8081:3128 -p 9050:9050 \
   -v ./logs:/app/logs -v ./proxies:/app/proxies \
   doge-unblocker
 
-# Check logs
-docker logs -f doge
+# Check container is running
+docker ps | grep doge
+
+# Check logs (troubleshooting)
+docker logs -f doge | tail -20
 
 # Stop container
 docker stop doge
 
-# Health check
-curl http://localhost:8080/health
+# Remove container
+docker rm doge
 
-# Run deployment script
-./deploy.sh
+# Test endpoints
+curl http://localhost:8080/health
+curl http://localhost:3000/  # UV Proxy
+curl -x http://localhost:8081 http://httpbin.org/ip  # Privoxy test
+curl --socks5-hostname 127.0.0.1:9050 http://httpbin.org/ip  # Tor test
+
+# Run deployment script (fixed)
+./deploy-fixed.sh
 
 # Update to latest
 ./update.sh
