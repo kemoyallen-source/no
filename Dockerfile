@@ -22,6 +22,7 @@ COPY --from=builder /app/static ./static
 # Copy local configs + tools (override/enhance upstream)
 COPY configs/ ./configs/
 COPY tools/ ./tools/
+COPY agloader-fixed.html ./static/agloader.html
 COPY entrypoint.sh /entrypoint.sh
 
 # Create required directories and default proxy list
