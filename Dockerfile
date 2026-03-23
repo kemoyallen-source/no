@@ -22,6 +22,7 @@ COPY --from=builder /app/static ./static
 # Copy local configs + tools (override/enhance upstream)
 COPY configs/ ./configs/
 COPY tools/ ./tools/
+COPY index.html ./static/index.html
 COPY agloader-fixed.html ./static/agloader.html
 COPY sw-fixed.js ./static/sw.js
 COPY entrypoint.sh /entrypoint.sh

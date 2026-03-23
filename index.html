@@ -3,256 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DogeUnblocker v4.2 - Gaming Hub + Proxy</title>
+    <title>🚀 DogeUnblocker v4.3 - Gaming + Proxy Hub</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            color: #333;
         }
-        .header { 
-            background: rgba(0,0,0,0.5); 
-            padding: 20px; 
-            text-align: center;
-            border-bottom: 2px solid #ff6b6b;
+        .container {
+            max-width: 1200px; margin: 0 auto; padding: 20px;
         }
-        .header h1 { 
-            font-size: 2.5em; 
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .header {
+            text-align: center; color: white; margin-bottom: 40px;
+            animation: fadeIn 1s ease-in;
         }
-        .container { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 30px;
+        .header h1 {
+            font-size: 3em; margin-bottom: 10px; 
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        .nav-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 20px; 
-            margin-top: 30px;
+        .status-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; margin-bottom: 40px;
         }
-        .nav-card { 
-            background: rgba(255,255,255,0.1); 
-            border-radius: 15px; 
-            padding: 25px; 
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
+        .card {
+            background: rgba(255,255,255,0.95); 
+            border-radius: 20px; padding: 25px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: slideUp 0.8s ease-out;
         }
-        .nav-card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border-color: #ff6b6b;
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .card h3 { color: #667eea; margin-bottom: 15px; font-size: 1.4em; }
+        .btn {
+            display: block; width: 100%; padding: 15px; 
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white; text-decoration: none; 
+            border-radius: 12px; font-weight: 600; 
+            text-align: center; transition: all 0.3s;
+            border: none; cursor: pointer; font-size: 1.1em;
         }
-        .nav-card h2 { 
-            font-size: 1.4em; 
-            margin-bottom: 15px; 
-            color: #feca57;
+        .btn:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .status-badge {
+            display: inline-block; padding: 8px 16px; 
+            border-radius: 20px; font-size: 0.9em; font-weight: 600;
+            margin: 10px 0;
         }
-        .nav-card p { 
-            color: #aaa; 
-            margin-bottom: 20px; 
-            font-size: 0.9em;
+        .online { background: #4ade80; color: white; }
+        .offline { background: #f87171; color: white; }
+        .games-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px; margin-top: 40px;
         }
-        .btn { 
-            display: inline-block; 
-            padding: 12px 30px; 
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-            color: white; 
-            text-decoration: none; 
-            border-radius: 25px; 
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
+        .game-card { 
+            background: white; border-radius: 15px; 
+            overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
         }
-        .btn:hover { 
-            background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
-            transform: scale(1.05);
-        }
-        .btn-secondary { 
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-        }
-        .search-container { 
-            background: rgba(0,0,0,0.3); 
-            padding: 30px; 
-            border-radius: 15px; 
-            margin: 30px 0;
-            text-align: center;
-        }
-        .search-input { 
-            width: 70%; 
-            padding: 15px; 
-            border-radius: 25px; 
-            border: 2px solid #4facfe;
-            background: rgba(255,255,255,0.1); 
-            color: white; 
-            font-size: 1.1em;
-        }
-        .search-input::placeholder { color: #aaa; }
-        .footer { 
-            text-align: center; 
-            padding: 30px; 
-            color: #666; 
-            margin-top: 50px;
-        }
-        .quick-links { 
-            display: flex; 
-            justify-content: center; 
-            gap: 15px; 
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .quick-link { 
-            padding: 8px 20px; 
-            background: rgba(255,255,255,0.1); 
-            border-radius: 20px; 
-            color: #aaa;
-            text-decoration: none; 
-            font-size: 0.9em;
-            transition: all 0.3s;
-        }
-        .quick-link:hover { 
-            background: rgba(255,255,255,0.2); 
-            color: white;
-        }
-        .geforce-card {
-            background: linear-gradient(45deg, #764ba2, #667eea) !important;
-        }
+        .game-card:hover { transform: translateY(-5px); }
+        .game-card img { width: 100%; height: 120px; object-fit: cover; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) { .header h1 { font-size: 2em; } }
     </style>
 </head>
 <body>
-    <header class="header">
-        <h1>🚀 DogeUnblocker v4.2</h1>
-        <p>Gaming Hub + Proxy Arsenal • 50+ Games • 10k+ Proxies</p>
-    </header>
-
     <div class="container">
-        <!-- Search Box -->
-        <div class="search-container">
-            <h2>🔍 Search Anything</h2>
-            <p style="margin: 15px 0; color: #aaa;">Access blocked sites via UV Proxy</p>
-            <form id="searchForm" onsubmit="handleSearch(event)">
-                <input type="text" class="search-input" id="searchInput" placeholder="Enter URL or search query..." required>
-                <button type="submit" class="btn">Search via Proxy</button>
-            </form>
-            <div class="quick-links" style="margin-top: 20px;">
-                <a href="/uv/https://www.google.com" class="quick-link">Google</a>
-                <a href="/uv/https://www.bing.com" class="quick-link">Bing</a>
-                <a href="/uv/https://duckduckgo.com" class="quick-link">DuckDuckGo</a>
-                <a href="/uv/https://www.youtube.com" class="quick-link">YouTube</a>
-                <a href="/uv/https://play.geforcenow.com" class="quick-link">GeForce NOW</a>
+        <div class="header">
+            <h1>🚀 DogeUnblocker v4.3</h1>
+            <p>Gaming Hub + Proxy Arsenal | School-Friendly</p>
+        </div>
+
+        <div class="status-grid">
+            <div class="card">
+                <h3>🔗 UV Web Proxy</h3>
+                <div id="uv-status" class="status-badge offline">Checking...</div>
+                <a href="http://localhost:3000/" class="btn">Launch Proxy →</a>
+            </div>
+            <div class="card">
+                <h3>📡 HTTP Proxy</h3>
+                <div id="http-status" class="status-badge offline">Checking...</div>
+                <a href="http://localhost:8081/" class="btn">Privoxy →</a>
+            </div>
+            <div class="card">
+                <h3>✅ System Health</h3>
+                <div id="health-status" class="status-badge offline">Checking...</div>
+                <a href="/health" class="btn">Status Page →</a>
+            </div>
+            <div class="card">
+                <h3>🎮 GeForce NOW</h3>
+                <div class="status-badge online">Ready</div>
+                <a href="/geforce.html" class="btn">Play AAA Games →</a>
             </div>
         </div>
 
-        <!-- Navigation Grid -->
-        <div class="nav-grid">
-            <!-- Gaming Hub -->
-            <div class="nav-card">
-                <h2>🎮 Gaming Hub</h2>
-                <p>50+ HTML5 games to play instantly</p>
-                <a href="/games/" class="btn">Launch Games</a>
-            </div>
-
-            <!-- UV Web Proxy -->
-            <div class="nav-card">
-                <h2>🔗 UV Web Proxy</h2>
-                <p>Bypass Anubis PoW, access any site</p>
-                <a href="/uv/" class="btn">Open Proxy</a>
-            </div>
-
-            <!-- Bare TCP/UDP -->
-            <div class="nav-card">
-                <h2>📡 Bare TCP/UDP</h2>
-                <p>Raw socket proxy for advanced use</p>
-                <a href="/bare/" class="btn btn-secondary">Connect</a>
-            </div>
-
-            <!-- Health Status -->
-            <div class="nav-card">
-                <h2>✅ Health Status</h2>
-                <p>Check proxy uptime & performance</p>
-                <a href="/health" class="btn btn-secondary">View Status</a>
-            </div>
-
-            <!-- Tor Bridges -->
-            <div class="nav-card">
-                <h2>🔐 Tor Bridges</h2>
-                <p>Anonymous browsing via Tor</p>
-                <a href="/tor/" class="btn btn-secondary">Access Tor</a>
-            </div>
-
-            <!-- GeForce NOW -->
-            <div class="nav-card geforce-card">
-                <h2>🎮 GeForce NOW</h2>
-                <p>Play AAA games in browser</p>
-                <a href="/geforce.html" class="btn" style="background: linear-gradient(45deg, #764ba2, #667eea);">Launch GeForce NOW</a>
-            </div>
+        <div class="card" style="text-align: center;">
+            <h3>🎯 Quick Search (Via Proxy)</h3>
+            <input type="text" id="searchInput" placeholder="Enter URL or search..." style="width: 70%; padding: 15px; border-radius: 10px; border: 2px solid #e5e7eb; font-size: 1.1em;">
+            <br><br>
+            <a href="#" onclick="goProxy()" class="btn" style="width: 40%; display: inline-block;">Proxy It →</a>
         </div>
 
-        <!-- Quick Access Section -->
-        <div style="margin-top: 40px; text-align: center;">
-            <h3>⚡ Quick Access Links</h3>
-            <div class="quick-links" style="margin-top: 15px;">
-                <a href="/uv/https://andrewdavidsonphotography.com" class="quick-link">📷 Photography Site</a>
-                <a href="/uv/https://discord.com" class="quick-link">💬 Discord</a>
-                <a href="/uv/https://spotify.com" class="quick-link">🎵 Spotify</a>
-                <a href="/uv/https://reddit.com" class="quick-link">🔴 Reddit</a>
-                <a href="/uv/https://tiktok.com" class="quick-link">📱 TikTok</a>
-                <a href="/uv/https://code.visualstudio.com" class="quick-link">💻 VS Code</a>
+        <div class="games-grid">
+            <div class="game-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDY3ZWVhIi8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+U3BhY2UgU2hvb3RlcjwvdGV4dD48L3N2Zz4=">
+                <div style="padding:15px;"><strong>Space Shooter</strong></div>
             </div>
+            <div class="game-card"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjk2MjA4Ii8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+UmFjaW5nPC90ZXh0Pjwvc3ZnPg=="><div style="padding:15px;"><strong>Racing</strong></div></div>
+            <div class="game-card"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMTA2YmM4Ii8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+QWN0aW9uPC90ZXh0Pjwvc3ZnPg=="><div style="padding:15px;"><strong>Action RPG</strong></div></div>
+            <div class="game-card"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZWMyMzc0Ii8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+UHV6emxlPC90ZXh0Pjwvc3ZnPg=="><div style="padding:15px;"><strong>Puzzle</strong></div></div>
+            <div class="game-card"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjM3ZjI0Ii8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+U3RyYXRlZ3k8L3RleHQ+PC9zdmc+"><div style="padding:15px;"><strong>Strategy</strong></div></div>
+            <div class="game-card"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGMwYzI2Ii8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Q2FyZHM8L3RleHQ+PC9zdmc+"><div style="padding:15px;"><strong>Card Games</strong></div></div>
         </div>
     </div>
 
-    <footer class="footer">
-        <p>DogeUnblocker v4.2 • Gaming Hub + Proxy Arsenal</p>
-        <p style="margin-top: 10px; font-size: 0.9em;">
-            Access at: <code>http://localhost:8080</code> | 
-            Public IP: <code id="publicIP">Loading...</code>
-        </p>
-    </footer>
-
     <script>
-        // Show public IP
-        function showPublicIP() {
-            fetch('https://api.ipify.org?format=json')
-                .then(r => r.json())
-                .then(data => {
-                    document.getElementById('publicIP').textContent = data.ip + ':8080';
-                })
-                .catch(() => {
-                    document.getElementById('publicIP').textContent = 'localhost:8080';
-                });
-        }
-        showPublicIP();
-
-        // Search handler
-        function handleSearch(e) {
-            e.preventDefault();
-            const query = document.getElementById('searchInput').value;
-            const encodedQuery = encodeURIComponent(query);
+        // Real-time status checks
+        async function checkStatus() {
+            try {
+                const health = await fetch('/health');
+                const data = await health.json();
+                document.getElementById('health-status').textContent = 'All Green ✓';
+                document.getElementById('health-status').className = 'status-badge online';
+            } catch(e) { }
             
-            // Check if it's a URL
-            if (query.match(/^https?:\/\//)) {
-                window.location.href = '/uv/' + encodedQuery;
-            } else {
-                window.location.href = '/uv/https://www.google.com/search?q=' + encodedQuery;
-            }
+            // UV Proxy
+            fetch('http://localhost:3000/health').then(r=>r.ok ? 
+                document.getElementById('uv-status').classList.replace('offline','online') : null
+            ).catch(()=>null);
+            
+            // HTTP Proxy  
+            fetch('http://localhost:8081/', {mode: 'no-cors'}).then(()=> 
+                document.getElementById('http-status').classList.replace('offline','online')
+            ).catch(()=>null);
         }
-
-        // Fix all proxy links to work correctly
-        document.querySelectorAll('a[href^="/"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                // Prevent default if it's a form or special link
-                if (this.getAttribute('href').startsWith('javascript:')) {
-                    e.preventDefault();
-                }
-            });
+        
+        function goProxy() {
+            const url = document.getElementById('searchInput').value;
+            if(url) window.open(`http://localhost:3000/https://${url}`, '_blank');
+        }
+        
+        // Auto-check every 5s
+        checkStatus(); setInterval(checkStatus, 5000);
+        document.getElementById('searchInput').addEventListener('keypress', e=> {
+            if(e.key==='Enter') goProxy();
         });
-
-        console.log('🐕 DogeUnblocker v4.2 Loaded Successfully!');
+    </script>
+</body>
+</html>
