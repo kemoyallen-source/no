@@ -1,0 +1,64 @@
+{
+  "name": "DogeUnblocker - GitHub Codespaces",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  
+  // Forward all service ports
+  "forwardPorts": [80, 3000, 3128, 8000, 8080, 9050],
+  
+  // Configuration for each port
+  "portsAttributes": {
+    "80": {
+      "label": "Nginx Reverse Proxy",
+      "onAutoForward": "public",
+      "requireLocalPort": false
+    },
+    "3000": {
+      "label": "UV Proxy Web App",
+      "onAutoForward": "public",
+      "requireLocalPort": false
+    },
+    "3128": {
+      "label": "Privoxy HTTP Proxy",
+      "onAutoForward": "public",
+      "requireLocalPort": false
+    },
+    "8000": {
+      "label": "Node.js UV Backend",
+      "onAutoForward": "public",
+      "requireLocalPort": false
+    },
+    "8080": {
+      "label": "Gaming Dashboard",
+      "onAutoForward": "public",
+      "requireLocalPort": false
+    },
+    "9050": {
+      "label": "Tor SOCKS5",
+      "onAutoForward": "public",
+      "requireLocalPort": false
+    }
+  },
+  
+  // Post-create script: Install Docker CLI in Codespace
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  
+  // Features to install
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/node:18": {}
+  },
+  
+  // Customizations
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "Git.git-graph",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "docker.showStartPage": false
+      }
+    }
+  }
+}
